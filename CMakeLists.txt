@@ -65,6 +65,37 @@ juce_add_plugin(ARAPluginDemo
 
 juce_generate_juce_header(ARAPluginDemo)
 
+
+#TODO: This should be within JUCE itself!
+add_library(ARA_IPC_Library ${ARA_LIBRARY_TARGET_TYPE}
+    "${ARA_SDK_SOURCE_DIR}/ARA_Library/Dispatch/ARAHostDispatch.cpp"
+    "${ARA_SDK_SOURCE_DIR}/ARA_Library/IPC/ARAIPC.h"
+    "${ARA_SDK_SOURCE_DIR}/ARA_Library/IPC/ARAIPCEncoding.h"
+    "${ARA_SDK_SOURCE_DIR}/ARA_Library/IPC/ARAIPCMessage.h"
+    "${ARA_SDK_SOURCE_DIR}/ARA_Library/IPC/ARAIPCMessageChannel.h"
+    "${ARA_SDK_SOURCE_DIR}/ARA_Library/IPC/ARAIPCMessageChannel.cpp"
+    "${ARA_SDK_SOURCE_DIR}/ARA_Library/IPC/ARAIPCProxyHost.h"
+    "${ARA_SDK_SOURCE_DIR}/ARA_Library/IPC/ARAIPCProxyHost.cpp"
+    "${ARA_SDK_SOURCE_DIR}/ARA_Library/IPC/ARAIPCProxyPlugIn.cpp"
+    "${ARA_SDK_SOURCE_DIR}/ARA_Library/IPC/ARAIPCProxyPlugIn.h"
+)
+
+if(APPLE)
+    target_sources(ARA_IPC_Library PRIVATE
+        "${ARA_SDK_SOURCE_DIR}/ARA_Library/IPC/ARAIPCAudioUnit_v3.h"
+        "${ARA_SDK_SOURCE_DIR}/ARA_Library/IPC/ARAIPCAudioUnit_v3.mm"
+        "${ARA_SDK_SOURCE_DIR}/ARA_Library/IPC/ARAIPCCFEncoding.h"
+        "${ARA_SDK_SOURCE_DIR}/ARA_Library/IPC/ARAIPCCFEncoding.cpp"
+    )
+    target_link_libraries(ARA_IPC_Library PRIVATE
+        "-framework Cocoa"
+    )
+    target_include_directories(ARA_IPC_Library
+    PRIVATE
+    "${ARA_SDK_SOURCE_DIR}"
+)
+endif()
+
 target_include_directories(ARAPluginDemo
     PRIVATE
     Source
@@ -88,7 +119,7 @@ target_compile_definitions(ARAPluginDemo
 # juce_add_binary_data(AudioPluginData SOURCES ...)
 target_link_libraries(ARAPluginDemo
     PRIVATE
-
+    ARA_IPC_Library
     # AudioPluginData           # If we'd created a binary data target, we'd link to it here
     juce::juce_audio_utils
     PUBLIC
