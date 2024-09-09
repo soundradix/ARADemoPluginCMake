@@ -36,7 +36,15 @@ CPMAddPackage(
     DOWNLOAD_ONLY ON
 )
 
-juce_set_aax_sdk_path(aax_sdk)
+set(AAX_SDK_PATH aax_sdk)
+if(EXISTS "${AAX_SDK_PATH}")
+    set(HAS_AAX TRUE)
+    juce_set_aax_sdk_path("${AAX_SDK_PATH}")
+else()
+    set(HAS_AAX FALSE)
+    message(STATUS "AAX SDK not found. AAX format will be excluded.")
+endif()
+
 juce_set_ara_sdk_path("${ARA_SDK_SOURCE_DIR}")
 
 juce_add_plugin(ARAPluginDemo
@@ -51,7 +59,7 @@ juce_add_plugin(ARAPluginDemo
     COPY_PLUGIN_AFTER_BUILD TRUE
     PLUGIN_MANUFACTURER_CODE Manu
     PLUGIN_CODE AraD
-    FORMATS AAX AU VST3
+    FORMATS $<HAS_AAX:AAX> AU VST3
     PRODUCT_NAME "ARAPluginDemo"
 )
 
