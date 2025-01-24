@@ -32,7 +32,7 @@ CPMAddPackage(
 CPMAddPackage(
     NAME "ARA_SDK"
     GITHUB_REPOSITORY "celemony/ARA_SDK"
-    GIT_TAG "5c325740d2ad1987dde1e25561e5e7cbc83c8801"
+    GIT_TAG "3227316bfeafddaeed4d5395eaeb5fb53ff49506"
     DOWNLOAD_ONLY ON
 )
 
