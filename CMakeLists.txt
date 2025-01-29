@@ -25,8 +25,8 @@ set_property(GLOBAL PROPERTY USE_FOLDERS YES)
 
 include(cmake/CPM.cmake)
 CPMAddPackage(
-    GITHUB_REPOSITORY "soundradix/JUCE"
-    GIT_TAG "7da7882633c53cbcdbd6c2438d41eef564743841"
+    GITHUB_REPOSITORY "Celemony/JUCE"
+    GIT_TAG "e64bddfcf3ac33b5f67cc2f7fc31ab947968e0d1"
     OPTIONS "JUCE_ENABLE_MODULE_SOURCE_GROUPS ON"
 )
 CPMAddPackage(
